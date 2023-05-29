@@ -2,4 +2,10 @@ Orkhan|Aliyev|37|1.87
 Elena|Sidanova|48|1.60
 Jurgita|Butiene|39|1.73
 Maiia|Katts|35|1.68
-Nikolay|Petrov|34|178.0
+Nikolay|Petrov|34|1.78
+Anna|Frank|15|1.50
+Nikolay|Petrov|34|1.78
+Michail|Bulgakov|48|1.7
+Ayn|Rand|77|1.57
+Faina|Ranevskaya|70|1.76
+Natalia|Jean|23|1.23

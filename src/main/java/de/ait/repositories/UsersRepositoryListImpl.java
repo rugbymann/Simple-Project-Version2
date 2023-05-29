@@ -21,10 +21,6 @@ public class UsersRepositoryListImpl implements UsersRepository {
         return users;
     }
     @Override
-    public void save(User user) throws IOException {
-
-    }
-
-
+    public void save(User user) throws IOException {}
 }
 

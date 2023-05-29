@@ -53,7 +53,8 @@ public class Main {
                 case 4:
                     System.out.println(
                             String.format(
-                                    "Средний возраст всех пользователей составляет %.1f лет", usersService.getAverageAge()));
+                                    "Средний возраст всех пользователей составляет %.1f лет",
+                                    usersService.getAverageAge()));
                     break;
 
                 case 5:

@@ -46,42 +46,78 @@ public class UsersServiceImpl implements UsersService {
         Scanner scanner = new Scanner(System.in);
 
         System.out.print("Введите имя нового пользователя: ");
-        String firstName = scanner.nextLine();
-        if (containsNumbers(firstName)) {
-            System.out.println("Некорректный ввод. Имя может состоять только из букв.");
-            return;
-
+        String firstName;
+        while (true) {
+            firstName = scanner.nextLine().trim();
+            if (!firstName.isEmpty()) {
+                firstName = firstName.substring(0, 1).toUpperCase() + firstName.substring(1);
+                break;
+            }
+            System.out.println("Данное поле должно содержать имя пользователя. Повторите ввод:");
+        }
+        while (!UserValidator.isValidFirstName(firstName)) {
+            System.out.println("Повторите ввод:");
+            firstName = scanner.nextLine();
+            firstName = firstName.substring(0, 1).toUpperCase() + firstName.substring(1);
         }
 
         System.out.print("Введите фамилию нового пользователя: ");
-        String lastName = scanner.nextLine();
-        if (containsNumbers(lastName)) {
-            System.out.println("Некорректный ввод. Фамилия может состоять только из букв.");
-            return;
+        String lastName;
+        while (true) {
+            lastName = scanner.nextLine().trim();
+            if (!lastName.isEmpty()) {
+                lastName = lastName.substring(0, 1).toUpperCase() + lastName.substring(1);
+                break;
+            }
+            System.out.println("Данное поле должно содержать фамилию пользователя. Повторите ввод.");
         }
-
+        while (!UserValidator.isValidLastName(lastName)) {
+            System.out.println("Повторите ввод");
+            lastName = scanner.nextLine();
+            lastName = lastName.substring(0, 1).toUpperCase() + lastName.substring(1);
+        }
 
         System.out.print("Введите возраст нового пользователя: ");
-        int age = scanner.nextInt();
-        if (age <= 0) {
-            System.out.println("Некорректный ввод");
-            return;
+        int age = 0;
+        age = scanner.nextInt();
+        while (!UserValidator.isValidAge(age)) {
+            try {
+                age = scanner.nextInt();
+            } catch (InputMismatchException e) {
+                System.out.print("Повторите ввод: ");
+                return;
+            }
+            scanner.nextLine();
         }
-
+        scanner.nextLine();
 
         System.out.print("Введите рост нового пользователя: ");
-        double height = scanner.nextDouble();
-        if (height <= 0) {
-            System.out.println("Некорректный ввод");
-            return;
+        double height = 0.00;
+        boolean isValidHeight = false;
+        while (!isValidHeight) {
+            try {
+                height = scanner.nextDouble();
+                if (!UserValidator.isValidHeight(height)) {
+                    System.out.print("Повторите ввод: ");
+                } else {
+                    isValidHeight = true;
+                }
+            }catch (InputMismatchException e) {
+                    System.out.print("Повторите ввод: ");
+                    scanner.nextLine();
+            }
         }
+        scanner.nextLine();
 
         User newUser = new User(firstName, lastName, age, height);
-        usersRepository.save(newUser);
-
-        System.out.println("Новый пользователь сохранен.");
+        try {
+            usersRepository.save(newUser);
+            System.out.println("\tНовый пользователь сохранен.\n " +
+                    "\tВЫБЕРИТЕ СЛЕДУЮЩУЮ КОМАНДУ: ");
+        } catch (Exception e) {
+            System.out.println("Пользователь с таким именем уже существует");
+        }
     }
-
 
     @Override
     public Double getAverageAge() {
@@ -120,14 +156,4 @@ public class UsersServiceImpl implements UsersService {
 
         return userHeight.get(minHeight);
     }
-
-    public static boolean containsNumbers(String str) {
-        for (char c : str.toCharArray()) {
-            if (Character.isDigit(c)) {
-                return true;
-            }
-        }
-        return false;
-    }
-
 }
